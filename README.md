@@ -2,7 +2,7 @@
 
 This project was developed by 2 ENSIT students as part of the end-of-the-year project in 2023.
 
-## Description
+### Description
 
 CareConnect is an IT support system application designed to streamline communication between users and professionals through the use of a ticketing system. 
 The primary goal of CareConnect is to provide users with a platform to easily submit their technical issues or requests and ensure they are efficiently addressed by dedicated professionals.
