@@ -1,6 +1,6 @@
 ## CareConnect: Help Desk Web Application
 
-This project was developed as part of the end-of-the-year project in 2023.
+This project was developed by 2 ENSIT students as part of the end-of-the-year project in 2023.
 
 # Description
 
