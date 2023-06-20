@@ -1,13 +1,13 @@
-## CareConnect: Help Desk Web Application
+# CareConnect: Help Desk Web Application
 
 This project was developed by 2 ENSIT students as part of the end-of-the-year project in 2023.
 
-# Description
+## Description
 
 CareConnect is an IT support system application designed to streamline communication between users and professionals through the use of a ticketing system. 
 The primary goal of CareConnect is to provide users with a platform to easily submit their technical issues or requests and ensure they are efficiently addressed by dedicated professionals.
 
-# Installation
+### Installation
 
 To install and set up the CareConnect Help Desk Web Application, follow these steps:
 
@@ -37,7 +37,7 @@ Note: Make sure that your WAMP or XAMPP server is running before accessing the a
 Please adjust the instructions if necessary based on your specific server setup or any additional steps required for the configuration.
 
 
-# Ticketing System Usage
+### Ticketing System Usage
 
 To use the CareConnect Help Desk Web Application, follow these steps:
 
@@ -112,12 +112,12 @@ Password: hadil
 	
 	•	Click the "Send" button to assign the ticket to the technician.
 
-# Technologies Used
+### Technologies Used
 
 	•	Front-end: HTML, CSS, JavaScript
 	•	Back-end: PHP
   
-  # Disclaimer 
+### Disclaimer 
   
   we incorporated a template that enhances the aesthetics and layout of our website, ensuring a consistent and professional appearance throughout.
 Original template : https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html
