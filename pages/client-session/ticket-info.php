@@ -13,7 +13,6 @@ error_reporting(E_ALL);
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,7 +22,7 @@ error_reporting(E_ALL);
   <link rel="apple-touch-icon" sizes="76x76" href="../../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../../assets/img/favicon.png">
   <title>
-    Client Board
+    Ticket Info
   </title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -32,7 +31,7 @@ error_reporting(E_ALL);
   <link href="../../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <link href="../../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="../../assets/css/styles.css" rel="stylesheet" />
 </head>
@@ -43,7 +42,7 @@ error_reporting(E_ALL);
 
   <!-- sidebar -->
   <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
-  <!-- logo div -->
+    <!-- logo div -->
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html " target="_blank">
@@ -56,7 +55,7 @@ error_reporting(E_ALL);
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" href="../client-session/client-home.php">
+          <a class="nav-link" href="../client-session/client-home.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
             </div>
@@ -83,15 +82,15 @@ error_reporting(E_ALL);
   </aside>
 
   <main class="main-content position-relative border-radius-lg ">
-    <!-- header : Navbar -->
+    <!-- header: Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
-            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Home</li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Ticket Info</li>
           </ol>
-          <h6 class="font-weight-bolder text-white mb-0">Home</h6>
+          <h6 class="font-weight-bolder text-white mb-0">Ticket Info</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -161,135 +160,71 @@ error_reporting(E_ALL);
     </nav>
     <!-- End Navbar -->
 
-    <!-- body: ticket table -->
+    <!-- body: ticket info table -->
     <div class="container-fluid py-4">
       <div class="row">
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>Tickets table</h6>
+              <h6>Ticket Info</h6>
             </div>
+            
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
-                <table class="table align-items-center justify-content-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Subject</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Client</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Progress</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                   <?php
-                      // get username (id_client) related to client
-                      //echo $_SESSION['name']; // works
-                      $sql = "SELECT username FROM user WHERE name = '{$_SESSION['name']}'";
-                      $id = mysqli_query($conn, $sql);
-                      $row = mysqli_fetch_assoc($id);
-                      //echo $row['username']; //works
-                      $id_client = $row['username'];
-                      //echo $id_client; //works
+                <?php
 
-                      //create a global session for id_client
-                      $_SESSION['id_client'] = $row['username'];
+                // retrieve the parameter value
+                if(isset($_GET['data'])) {
+                  $data = $_GET['data'];
+                  // echo $data; 
+                }   //works          
+                
+                // send data through url to ticket-validate.php
+                $url = "../includes/ticket-validate.php?data=".urlencode($data);
 
-                      // get ticket related to id_client
-                      $sql2 = "SELECT * FROM ticket WHERE id_client = $id_client ORDER BY state ASC";
-                      $result = mysqli_query($conn, $sql2);
-                      //$ticket = mysqli_fetch_assoc($result); 
-                      //echo $ticket['object']; //works
+                echo "<form role='form' action='$url' method='POST'>";
+              
+                //echo $_SESSION['id_client']; //works
+                $id_client = $_SESSION['id_client'];
 
-                      
-                      //loop through data and display it in the table rows
-                      while ($ticket = mysqli_fetch_assoc($result)) {
+                // get data from ticket table 
+                $query = "SELECT * FROM ticket WHERE num=$data && id_client=$id_client";
+                $result = mysqli_query($conn, $query);
+                $row = mysqli_fetch_assoc($result);
+              
+                echo "
+                <div class='mb-3'>
+                  <base-input type='text' class='reply-ticket-msg' placeholder='Object-reply' disabled>";
+                    echo $row['object'];
+                  echo "</base-input>
+                </div>
+                <div class='mb-3'>
+                  <label for='msg' class='ticket-msg-label'>Problem Description</label>
+                  <base-input class='reply-ticket-msg txt-prob' disabled>";
+                  echo $row['msg'];
+                  echo"</base-input>
+                </div>
+                <div class='mb-3'>
+                  <label for='reply' class='ticket-msg-label'>Solution</label>
+                  <base-input class='reply-ticket-msg txt-prob' disabled>";
+                  echo $row['reply'];
+                  echo"</base-input>
+                </div>";
+                if ($row['state'] == 1) {
+                  echo "
+                  <div class='text-center'>
+                    <button type='submit' class='btn btn-lg btn-primary btn-lg ticket-btn'>Validate</button>
+                  </div>";
+                }
 
-                        // add ticket data to url
-                        $data= $ticket['num'];
-                        //echo $data; //works
-
-                        $url = "../client-session/ticket-info.php?data=".urlencode($data);
-
-                        echo "<tr>";
-                          echo "<td>
-                          <div class ='d-flex px-2'>
-                          <div>
-                            <img src='../../assets/img/ticket.png' class='avatar avatar-sm rounded-circle me-2' alt='spotify'>
-                          </div>
-                          <div class='my-auto'>
-                          <a href='$url'>
-                            <h6 class='mb-0 text-sm'>";
-                            echo $ticket['object'];
-                            echo "</h6>
-                          </a>
-                          <td>
-                            <p class='text-sm font-weight-bold mb-0'>";
-                            echo $_SESSION['name'];
-                            echo "</p>
-                            <td>
-                            <span class='text-xs font-weight-bold'>";
-                            if ($ticket['state'] == 0){
-                              echo "On hold";
-                              echo "<td class='align-middle text-center'>
-                              <div class='d-flex align-items-center justify-content-center'>
-                                <span class='me-2 text-xs font-weight-bold'>10%</span>
-                                <div>
-                                  <div class='progress'>
-                                    <div class='progress-bar bg-gradient-danger' role='progressbar' aria-valuenow='10' aria-valuemin='0' aria-valuemax='30' style='width: 10%;'></div>
-                                  </div>
-                                </div>
-                              </div>
-                            </td>";
-                            } elseif ($ticket['state'] == 1){
-                              echo "In progress";
-                              echo "<td class='align-middle text-center'>
-                              <div class='d-flex align-items-center justify-content-center'>
-                                <span class='me-2 text-xs font-weight-bold'>60%</span>
-                                <div>
-                                  <div class='progress'>
-                                    <div class='progress-bar bg-gradient-info' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='30' style='width: 60%;'></div>
-                                  </div>
-                                </div>
-                              </div>
-                            </td>";
-                            } else {
-                              echo "Validated";
-                              echo "<td class='align-middle text-center'>
-                              <div class='d-flex align-items-center justify-content-center'>
-                                <span class='me-2 text-xs font-weight-bold'>100%</span>
-                                <div>
-                                  <div class='progress'>
-                                    <div class='progress-bar bg-gradient-success' role='progressbar' aria-valuenow='100' aria-valuemin='0' aria-valuemax='30' style='width: 100%;'></div>
-                                  </div>
-                                </div>
-                              </div>
-                            </td>";
-                            }
-                            echo "
-                            </span>
-                            </td>";
-                              echo"</div>
-                              </td>
-                              <td class='align-middle'>
-                               <button class='btn btn-link text-secondary mb-0'>
-                                   <i class='fa fa-ellipsis-v text-xs'></i>
-                               </button>
-                              </td>
-                            </td>
-                          </div>
-                          </div>
-                          </td>
-                        </tr>";
-                      }
-                   ?>
-                 </tbody>
-                </table>
+                ?>
+                </form>
               </div>
             </div>
           </div>
         </div>
       </div>
+      
 
       <footer class="footer pt-3  ">
         <div class="container-fluid">
@@ -307,25 +242,6 @@ error_reporting(E_ALL);
       </footer>
     </div>
   </main>
-  
-  <!--   Core JS Files   -->
-  <script src="/../../assets/js/core/popper.min.js"></script>
-  <script src="../../assets/js/core/bootstrap.min.js"></script>
-  <script src="../../assets/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="../../assets/js/plugins/smooth-scrollbar.min.js"></script>
-  <script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-  </script>
-  <!-- Github buttons -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
-</body>
 
+</body>
 </html>
