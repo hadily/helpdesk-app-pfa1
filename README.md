@@ -119,5 +119,5 @@ Password: hadil
   
 ### Disclaimer 
   
-  we incorporated a template that enhances the aesthetics and layout of our website, ensuring a consistent and professional appearance throughout.
+We incorporated a template that enhances the aesthetics and layout of our website, ensuring a consistent and professional appearance throughout.
 Original template : https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html
